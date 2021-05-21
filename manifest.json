@@ -1,0 +1,13 @@
+{
+   "manifest_version": 3,
+   "name": "clearOLXsearch",
+   "version": "1.0",
+   "description": "очистка выдачи OLX от мусора",
+   "icons": {
+      "128": "128.png"
+   },
+   "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage", "activeTab", "scripting"]
+}

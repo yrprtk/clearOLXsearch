@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clearOLXsearch</title>
+  <style type="text/css">
+    body{
+      width: 400px;
+      padding: 10px 20px;
+    }
+    input[type=text]:focus{
+      outline: none;
+    }
+    input[type=text]{
+      width: 280px;
+      padding: 5px 7px;
+    }
+    input[type=submit]{
+      border-color: #4d90fe;
+      border-radius: 3px;
+      color: seashell;
+      font-weight: bold;
+      width: 95px;
+      padding: 5px 7px;
+      background-color: #4d90fe;
+    }
+  </style>
+</head>
+<body>
+    <input type="text" id="excludeWord" autofocus>
+    <input type="submit" id="apply" value="apply">
+  <script src="popup.js"></script>
+</body>
+</html>
