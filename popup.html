@@ -7,8 +7,10 @@
   <title>clearOLXsearch</title>
   <style type="text/css">
     body{
-      width: 400px;
-      padding: 10px 20px;
+      width: 350px;
+      /* height: 350px; */
+      padding: 10px 10px;
+      font-size: 14px;
     }
     input[type=text]:focus{
       outline: none;
@@ -26,11 +28,75 @@
       padding: 5px 7px;
       background-color: #4d90fe;
     }
+
+
+    #list{
+      width: 300px;
+    }
+
+
+    /* @media (prefers-color-scheme: dark) {
+    body {
+        background-color: rgb(56, 55, 55);
+        color: white;
+    }
+} */
+    
+    
+    /* скрыть контент по умолчанию */
+    .tabs>div {
+      display: none;
+      padding: 10px 15px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .tabs>div::-webkit-scrollbar {
+      width: 10px;
+    }
+    .tabs>div::-webkit-scrollbar-thumb {
+      /* border-radius: 10px; */
+      background: rgb(230, 230, 230);
+    }
+    /* отобразить контент, связанный с вабранной радиокнопкой (input type="radio") */
+    #tab-btn-1:checked~#content-1,
+    #tab-btn-2:checked~#content-2{
+      display: block;
+    }
+    .tabs>label {
+      display: inline-block;
+      text-align: center;
+      vertical-align: middle;
+      user-select: none;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+    .tabs>input[type="radio"]:checked+label {
+      border-top: 2px solid #4d90fe;
+    }
+    .tabs>input[type="radio"] {
+      display: none;
+    }
   </style>
 </head>
 <body>
-    <input type="text" id="excludeWord" autofocus>
-    <input type="submit" id="apply" value="apply">
+  <div class="tabs">
+    <input type="radio" name="tab-btn" id="tab-btn-1" value=""checked>
+    <label for="tab-btn-1">Главная</label>
+    <input type="radio" name="tab-btn" id="tab-btn-2" value="">
+    <label for="tab-btn-2">Сохраненные фильтры</label>
+    
+    <div id="content-1">
+      auto start?<input type="checkbox" id="autoStart">delete?<input type="checkbox" id="filterAction">
+      <input type="text" id="excludeWord" autofocus>
+      <input type="submit" id="apply" value="apply">
+      <table id="list"></table>
+    </div>
+    <div id="content-2">
+      <input type="text" id="filterName" autofocus><a id="save">save</a> <a id="load">load</a><a id="import">import</a>
+      <table id="saveFilter"></table>
+    </div>
+  </div>
+  <script src="index.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

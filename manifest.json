@@ -1,13 +1,22 @@
 {
-   "manifest_version": 3,
-   "name": "clearOLXsearch",
-   "version": "1.0",
-   "description": "очистка выдачи OLX от мусора",
-   "icons": {
-      "128": "128.png"
-   },
-   "action": {
+  "manifest_version": 3,
+  "name": "clearOLXsearch",
+  "version": "1.0",
+  "description": "очистка выдачи OLX от мусора",
+  "icons": {
+    "128": "128.png"
+  },
+  "action": {
     "default_popup": "popup.html"
   },
-  "permissions": ["storage", "activeTab", "scripting"]
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+   {
+     "matches": ["https://www.olx.ua/list/*"],
+     "js": ["index.js"]
+   }
+ ],
+  "permissions": ["storage", "activeTab", "scripting", "tabs"]
 }
