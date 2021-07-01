@@ -311,11 +311,18 @@ async function saveFilterAdd(key){
     return true
 }
 async function saveFilterImport(filter){
-    let saveFilter = await saveFilterGet();
-    let key = Object.keys(filter)[0];
-    saveFilter[key] = filter[key];
-    await saveFilterSave(saveFilter);
-    return true
+    try {
+        let saveFilter = await saveFilterGet();
+        let key = Object.keys(filter)[0];
+        if(!key){throw new Error("filter dont have key")};
+        if(typeof filter[key] !== 'object'){ throw new Error("fillter dont have body object")};
+        if(!("excludeWord" in filter[key] && "blackList" in filter[key])){ throw new Error("fillter body object dont have requared key")};
+        saveFilter[key] = filter[key];
+        await saveFilterSave(saveFilter);
+        return true
+    } catch (error) {
+        output(error);
+    }
 }
 
 function copyToClipboard (str){
@@ -367,4 +374,7 @@ function createBlackLink(sellerURL){
     let a = document.createElement('a');
     a.innerText = sellerURL;
     return a;
+}
+function output(str){
+    alert(str);
 }

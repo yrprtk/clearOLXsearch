@@ -3,17 +3,21 @@
 // });
 
 document.addEventListener("click", async (event) => {
-  let filterName = document.getElementById("filterName").value;
-  let excludeWord = document.getElementById("excludeWord").value;
-  let autoStart = document.getElementById("autoStart").checked;
-  let filterAction = document.getElementById("filterAction").checked;
-  switch (event.target.id) {
-    case 'autoStart': await autoStartSave(autoStart); break;
-    case 'filterAction': await filterActionSave(filterAction); break;
-    case 'apply': await excludeWordSave(excludeWord); break;
-    case 'save': await saveFilterAdd(filterName); break;
-    case 'import': await saveFilterImport(JSON.parse(filterName)); break;
-    default:
+  try {
+    let filterName = document.getElementById("filterName").value;
+    let excludeWord = document.getElementById("excludeWord").value;
+    let autoStart = document.getElementById("autoStart").checked;
+    let filterAction = document.getElementById("filterAction").checked;
+    switch (event.target.id) {
+      case 'autoStart': await autoStartSave(autoStart); break;
+      case 'filterAction': await filterActionSave(filterAction); break;
+      case 'apply': await excludeWordSave(excludeWord); break;
+      case 'save': await saveFilterAdd(filterName); document.getElementById("filterName").value = ""; break;
+      case 'import': await saveFilterImport(JSON.parse(filterName)); document.getElementById("filterName").value = "";  break;
+      default:
+    }    
+  } catch (error) {
+    output(error);
   }
 });
 document.addEventListener("run", async() => {
