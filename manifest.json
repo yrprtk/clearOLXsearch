@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "clearOLXsearch",
+  "name": "Сlear OLX search",
   "version": "1.0",
   "description": "очистка выдачи OLX от мусора",
   "icons": {

@@ -4,60 +4,29 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>clearOLXsearch</title>
+  <title>Сlear OLX search</title>
   <style type="text/css">
     body{
       width: 350px;
-      /* height: 350px; */
-      padding: 10px 10px;
+      padding: 10px;
       font-size: 14px;
     }
-    input[type=text]:focus{
-      outline: none;
-    }
-    input[type=text]{
-      width: 280px;
-      padding: 5px 7px;
-    }
-    input[type=submit]{
-      border-color: #4d90fe;
-      border-radius: 3px;
-      color: seashell;
-      font-weight: bold;
-      width: 95px;
-      padding: 5px 7px;
-      background-color: #4d90fe;
-    }
 
-
-    #list{
-      width: 300px;
-    }
-
-
-    /* @media (prefers-color-scheme: dark) {
-    body {
-        background-color: rgb(56, 55, 55);
-        color: white;
-    }
-} */
-    
-    
     /* скрыть контент по умолчанию */
     .tabs>div {
       display: none;
-      padding: 10px 15px;
-      max-height: 300px;
-      overflow-y: auto;
+      overflow: auto;
+      max-height: 250px;
+      padding: 10px;
     }
     .tabs>div::-webkit-scrollbar {
       width: 10px;
+      height: 10px;
     }
     .tabs>div::-webkit-scrollbar-thumb {
-      /* border-radius: 10px; */
       background: rgb(230, 230, 230);
     }
-    /* отобразить контент, связанный с вабранной радиокнопкой (input type="radio") */
+    /* отобразить контент, связанный с выбранной радиокнопкой (input type="radio") */
     #tab-btn-1:checked~#content-1,
     #tab-btn-2:checked~#content-2{
       display: block;
@@ -76,23 +45,67 @@
     .tabs>input[type="radio"] {
       display: none;
     }
+    
+    input[type=text]:focus{
+      outline: none;
+    }
+    input[type=text]{
+      padding: 3px 7px;
+    }
+    input[type=submit]{
+      padding: 3px 7px;
+      color: white;
+      border-color: #4d90fe;
+      background-color: #4d90fe;
+      cursor: pointer;
+    }
+    a, input[type=checkbox]{
+      cursor: pointer;
+    }
+
+    table{
+      width: 100%;
+      word-break:break-all;
+    }
+
+    .tabs>div>div{
+      padding-bottom: 10px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+          background-color: rgb(56, 55, 55);
+          color: white;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="tabs">
     <input type="radio" name="tab-btn" id="tab-btn-1" value=""checked>
-    <label for="tab-btn-1">Главная</label>
+    <label for="tab-btn-1">Main</label>
     <input type="radio" name="tab-btn" id="tab-btn-2" value="">
-    <label for="tab-btn-2">Сохраненные фильтры</label>
+    <label for="tab-btn-2">Save filter</label>
     
     <div id="content-1">
-      auto start?<input type="checkbox" id="autoStart">delete?<input type="checkbox" id="filterAction">
-      <input type="text" id="excludeWord" autofocus>
-      <input type="submit" id="apply" value="apply">
-      <table id="list"></table>
+      <div>
+        <input type="checkbox" id="autoStart" name="autoStart">
+        <label for="autoStart">Auto start</label>
+        <input type="checkbox" id="filterAction" name="filterAction">
+        <label for="filterAction">Delete</label>
+      </div>
+      <div>
+        <input type="text" id="excludeWord" placeholder="Exclude word" autofocus>
+        <input type="submit" id="apply" value="Save & Apply">
+      </div>
+      <table id="blackList"></table>
     </div>
     <div id="content-2">
-      <input type="text" id="filterName" autofocus><a id="save">save</a> <a id="load">load</a><a id="import">import</a>
+      <div>
+        <input type="text" id="filterName" placeholder="Filter name/body to save/import"  autofocus>
+        <input type="submit" id="save" value="save">
+        <input type="submit" id="import" value="import">
+      </div>
       <table id="saveFilter"></table>
     </div>
   </div>

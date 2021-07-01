@@ -11,7 +11,6 @@ document.addEventListener("click", async (event) => {
     case 'autoStart': await autoStartSave(autoStart); break;
     case 'filterAction': await filterActionSave(filterAction); break;
     case 'apply': await excludeWordSave(excludeWord); break;
-    case 'load': await saveFilterLoad(filterName); break;
     case 'save': await saveFilterAdd(filterName); break;
     case 'import': await saveFilterImport(JSON.parse(filterName)); break;
     default:
@@ -35,9 +34,9 @@ document.addEventListener("excludeWordRender", async() => {
 });
 document.addEventListener("blackListRender", async() => {
   let set = await blackListGet("set");
-  document.getElementById("list").innerHTML = ""
+  document.getElementById("blackList").innerHTML = ""
   set.forEach((key)=>{
-    adRowInTable(document.getElementById("list"), [key, createBtn(key, "blackListDel")]);
+    adRowInTable(document.getElementById("blackList"), [key, createBtn(key, "blackListDel")]);
   });
 });
 document.addEventListener("saveFilterRender", async() => {
@@ -65,17 +64,17 @@ function createBtn(key, type){
   a.setAttribute('id', key);
   switch (type) {
     case 'blackListDel':
-      a.innerText = "X";
+      a.innerText = "✖";
       a.setAttribute('title', "delete this seller");
       a.onclick = () => { blackListDel(key); }
       break;
     case 'saveFilterDel':
-      a.innerText = "☒";
+      a.innerText = "✖";
       a.setAttribute('title', "delete this filter");
       a.onclick = () => { saveFilterDel(key); }
       break;
     case 'saveFilterLoad':
-      a.innerText = "☑";
+      a.innerText = "🡰";
       a.setAttribute('title', "load as current filter");
       a.onclick = () => { saveFilterLoad(key); }
       break;
