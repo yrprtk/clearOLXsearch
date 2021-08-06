@@ -4,11 +4,13 @@ chrome.runtime.onMessage.addListener(async (request) => {
   }
 });
 
-if (this.location.origin === 'https://www.olx.ua') {
-  document.addEventListener('run', () => {
-    run();
-  });
-}
+window.onhashchange = () => {
+  document.dispatchEvent(new CustomEvent('run'));
+};
+
+document.addEventListener('run', () => {
+  run();
+});
 
 async function run() {
   const items = document.querySelectorAll(
@@ -17,7 +19,7 @@ async function run() {
   for (const item of items) {
     // удалили результаты роботы предидущего раза, если они есть
     if (item.querySelectorAll('details.clearOLXsearch').length) {
-      if (checkAdFiltering(item)) {
+      if (await checkAdFiltering(item)) {
         item.style.cssText = 'opacity: 1; display: block;';
       }
     } else {
@@ -51,7 +53,7 @@ async function run() {
               .href
           );
           blackLink.onclick = function () {
-            blackListAdd(this.text);
+            blackListAdd(this.title);
           };
           item.appendChild(blackLink);
           // фильтруем объявление
@@ -197,7 +199,7 @@ async function run() {
 async function checkAdFiltering(item) {
   const details = item.querySelectorAll('details.clearOLXsearch div')[0]
     .outerText;
-  const sellerURL = item.querySelectorAll('a')[2].innerText;
+  const sellerURL = item.querySelectorAll('a')[2].title;
   if (
     chekContainsSubStrInStr(await excludeWordGet(), details) ||
     (await blackListChek(sellerURL))
@@ -214,12 +216,26 @@ async function checkAdFiltering(item) {
 // storage
 function storageGet(str) {
   return new Promise((resolve) => {
-    chrome.storage.sync.get([str], (res) => resolve(res[str]));
+    chrome.storage.sync.get(['clearOLXsearch'], (res) => {
+      if (res.clearOLXsearch) {
+        resolve(res.clearOLXsearch[str]);
+      }
+      resolve(undefined);
+    });
   });
 }
 function storageSet(obj) {
   return new Promise((resolve) => {
-    chrome.storage.sync.set(obj, (res) => resolve(res));
+    chrome.storage.sync.get(['clearOLXsearch'], (res) => {
+      const clearOLXsearch = res.clearOLXsearch ? res.clearOLXsearch : {};
+      for (const key in obj) {
+        if (!obj.hasOwnProperty(key)) {
+          continue;
+        }
+        clearOLXsearch[key] = obj[key];
+      }
+      chrome.storage.sync.set({ clearOLXsearch }, (res2) => resolve(res2));
+    });
   });
 }
 // autoStart
@@ -267,22 +283,21 @@ async function excludeWordGet() {
   return excludeWord;
 }
 // blackList
-async function blackListSave(value, type) {
+async function blackListSave(blackList, type) {
   if (type === 'set') {
-    await storageSet({ blackList: JSON.stringify([...value]) });
-  } else if (type === 'str') {
-    await storageSet({ blackList: value });
+    blackList = Array.from(blackList);
   }
+  await storageSet({ blackList });
   document.dispatchEvent(new CustomEvent('run'));
   document.dispatchEvent(new CustomEvent('blackListRender'));
 }
 async function blackListGet(type) {
   let blackList = await storageGet('blackList');
   if (!blackList) {
-    blackList = '[]';
+    blackList = [];
   }
   if (type === 'set') {
-    blackList = new Set(JSON.parse(blackList));
+    blackList = new Set(blackList);
   }
   return blackList;
 }
@@ -334,7 +349,7 @@ async function saveFilterCopy(key) {
 }
 async function saveFilterAdd(key) {
   const excludeWord = await excludeWordGet();
-  const blackList = await blackListGet('str');
+  const blackList = await blackListGet(null);
   const saveFilter = await saveFilterGet();
   saveFilter[key] = { excludeWord, blackList };
   await saveFilterSave(saveFilter);
@@ -414,7 +429,8 @@ function createDetails(adDescription) {
 }
 function createBlackLink(sellerURL) {
   const a = document.createElement('a');
-  a.innerText = sellerURL;
+  a.setAttribute('title', sellerURL);
+  a.innerText = 'Add seller in black list';
   return a;
 }
 function output(str) {

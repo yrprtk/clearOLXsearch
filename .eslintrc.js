@@ -18,7 +18,9 @@ module.exports = {
         singleQuote: true,
       },
     ],
-    'no-underscore-dangle': 'off',
+    'no-continue': 'off',
+    'no-prototype-builtins': 'off',
+    'no-await-in-loop': 'off',
     'no-plusplus': 'off',
     'no-undef': 'off',
     'no-unused-vars': 'off',
@@ -26,11 +28,6 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'guard-for-in': 'off',
     'no-unused-expressions': 'off',
-    'no-param-reassign': [
-      2,
-      {
-        props: false,
-      },
-    ],
+    'no-param-reassign': 'off',
   },
 };

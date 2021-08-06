@@ -1,6 +1,9 @@
 // chrome.storage.sync.clear(function(result) {
 //   console.log("clear");
 // });
+// chrome.storage.sync.get(null, (items) => {
+//   console.log(items);
+// });
 
 document.addEventListener('click', async (event) => {
   try {

@@ -14,9 +14,9 @@
   },
   "content_scripts": [
    {
-     "matches": ["https://www.olx.ua/list/*"],
+     "matches": ["https://www.olx.ua/*"],
      "js": ["index.js"]
    }
  ],
-  "permissions": ["storage", "activeTab", "scripting", "tabs"]
+  "permissions": ["storage", "activeTab", "scripting", "tabs", "webRequest"]
 }
